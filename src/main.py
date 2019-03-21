@@ -12,6 +12,7 @@ PREFIX_OK = "[OK]"
 COMMANDS = {
 	"viva"		: PREFIX_COMMAND + "viva",
 	"help"		: PREFIX_COMMAND + "help",
+	"roll"		: PREFIX_COMMAND + "roll",
 	"horario"	: PREFIX_COMMAND + "horario",
 	"examenes"	: PREFIX_COMMAND + "examenes",
 	"show"		: PREFIX_COMMAND + "show",
@@ -56,6 +57,10 @@ async def on_message(message):
 			help_string += "- Comando %s : \"%s\"\n" % (k, v)
 
 		await client.send_message(message.channel, help_string)
+		
+	elif COMMANDS["roll"] == message.content[:5]:
+        	roll = r.randint(1,6)
+        	await client.send_message(message.channel, ":game_die: Has sacado un: " + str(roll))
 
 	elif COMMANDS["horario"] == message.content[:8]:
 		try:
