@@ -8,9 +8,11 @@ DESCRIPTION = " with your feelings"
 PREFIX_COMMAND = "!"
 PREFIX_ERROR = "[ERROR]"
 PREFIX_OK = "[OK]"
+SEMICOLON = ";"
 
 COMMANDS = {
 	"viva"		: PREFIX_COMMAND + "viva",
+	"poll"		: PREFIX_COMMAND + "poll",
 	"help"		: PREFIX_COMMAND + "help",
 	"horario"	: PREFIX_COMMAND + "horario",
 	"examenes"	: PREFIX_COMMAND + "examenes",
@@ -48,6 +50,24 @@ async def on_message(message):
 
 	if COMMANDS["viva"] == message.content[:5]:
 		await client.send_message(message.channel, "~Viva España~")
+		
+	if COMMANDS["poll"] == message.content[:5]:
+        	author = message.author
+        	x = int(message.content[6])
+        	await client.send_message(message.channel, "{} ha hecho una encuesta ¡ya puedes votar con los botones de reacción!\n".format(author))
+        
+        	text = text2 = "```"
+
+        	text = text + "Pregunta: " + message.content.split(SEMICOLON)[1]
+        	for i in range(1, x+1):
+            		text = text + "\nOPCIÓN " + str(i) + ":" + message.content.split(SEMICOLON)[i+1]
+            
+        	text = text + text2
+
+        	poll = await client.send_message(message.channel, text)
+
+        	for i in range(1, x+1):
+            		await client.add_reaction(poll, str(i) + "\u20e3")
 
 	if COMMANDS["help"] == message.content[:5]:
 		help_string = ""
